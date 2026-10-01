@@ -11,15 +11,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = os.environ.get("DJANGO_DEBUG") == "1"
 
 ON_VERCEL = bool(os.environ.get("VERCEL"))
+ON_RENDER = bool(os.environ.get("RENDER"))
 
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 if not SECRET_KEY:
-    if ON_VERCEL:
+    if ON_VERCEL or ON_RENDER:
         raise ImproperlyConfigured("Set DJANGO_SECRET_KEY for the deployed API.")
     SECRET_KEY = "dev-only-insecure-key-change-me"
 
 ALLOWED_HOSTS = os.environ.get(
-    "DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,[::1],.vercel.app"
+    "DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1,[::1],.vercel.app,.onrender.com"
 ).split(",")
 
 INSTALLED_APPS = [
@@ -88,7 +89,7 @@ REST_FRAMEWORK = {
     # Throttle on the address the platform's proxy saw. Left unset, DRF takes
     # the whole X-Forwarded-For header, which a client can change on every
     # request to get a fresh allowance.
-    "NUM_PROXIES": int(os.environ.get("NUM_PROXIES", "1" if ON_VERCEL else "0")),
+    "NUM_PROXIES": int(os.environ.get("NUM_PROXIES", "1" if ON_VERCEL or ON_RENDER else "0")),
 }
 
 LANGUAGE_CODE = "en-us"
