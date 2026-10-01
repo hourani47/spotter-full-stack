@@ -4,6 +4,8 @@ Enter where the truck is, the pickup, the drop-off and the cycle hours already
 used. Roadlog returns the route on a map, every stop the Hours of Service rules
 require, and a filled-out driver's daily log sheet for each day of the trip.
 
+Live: https://spotter-roadlog.vercel.app (API: https://spotter-roadlog-api.vercel.app/api/health/)
+
 - `backend/` Django + Django REST Framework API (stateless, no database)
 - `frontend/` React (Vite) app with a Leaflet map and SVG log sheets
 - `docs/` the assessment brief and the FMCSA reference material
